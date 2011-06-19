@@ -1,0 +1,13 @@
+<h1>Pragmatic Catalogue</h1>
+
+<% @products.each do |p| %>
+  <div class="entry">
+    <%= image_tag(p.image_url) %>
+    <h3><%=h p.title %></h3>
+    <%= p.description %>
+    <div class="price-line">
+      <span class="price"><%= number_to_currency(p.price, :unit => '&yen;') %></span>
+      <%= button_to "Put into cart" %>
+    </div>
+  </div>
+<% end %>
