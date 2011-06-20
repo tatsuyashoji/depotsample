@@ -1,4 +1,4 @@
-<h1>Pragmatic Catalogue</h1>
+<h1><%= I18n.t 'main.title' %></h1>
 
 <% @products.each do |p| %>
   <div class="entry">
@@ -6,9 +6,9 @@
     <h3><%=h p.title %></h3>
     <%= p.description %>
     <div class="price-line">
-      <span class="price"><%= number_to_currency(p.price, :unit => '&yen;') %></span>
+      <span class="price"><%= number_to_currency(p.price) %></span>
       <% form_remote_tag :url => {:action => 'add_to_cart', :id => p } do %>
-        <%= submit_tag "Put into cart" %>
+        <%= submit_tag I18n.t('main.button.add') %>
       <% end %>
     </div>
   </div>

@@ -8,18 +8,34 @@
   </head>
   <body id="store">
     <div id="banner">
-        <%= image_tag("logo.png") %>
-        <%= @page_title || "Pragmatic Bookshelf" %>
+      <% form_tag ' ', :method => 'GET', :class => 'locale' do %>
+        <%= select_tag 'locale', options_for_select(LANGUAGES, I18n.locale), :onchange => 'this.form.submit()' %>
+        <%= submit_tag 'submit' %>
+        <%= javascript_tag "$$('.locale input').each(Element.hide)" %>
+      <% end %>
+      <%= image_tag("logo.png") %>
+      <%= @page_title || I18n.t('layout.title') %>
     </div>
     <div id ="columns">
         <div id="side">
-          <% hidden_div_if(@cart.items.empty?, :id => "cart") do %>
-            <%= render(:partial => "cart", :object => @cart) %>
+          <% if @cart %>
+            <% hidden_div_if(@cart.items.empty?, :id => "cart") do %>
+              <%= render(:partial => "cart", :object => @cart) %>
+            <% end %>
+	        <% end %>
+          <a href="#"><%= I18n.t 'layout.side.home' %></a><br />
+          <a href="#"><%= I18n.t 'layout.side.questions' %></a><br />
+          <a href="#"><%= I18n.t 'layout.side.news' %></a><br />
+          <a href="#"><%= I18n.t 'layout.side.contact' %></a><br />
+          
+          <% if session[:user_id] %>
+            <br />
+            <%= link_to 'Order', :controller => 'orders' %><br />
+            <%= link_to 'Product', :controller => 'products' %><br />
+            <%= link_to 'User', :controller => 'users' %><br />
+            <br />
+            <%= link_to 'Logout', :controller => 'admin', :action => 'logout' %>
           <% end %>
-          <a href="#">Home</a><br />
-          <a href="#">FAQ</a><br />
-          <a href="#">News</a><br />
-          <a href="#">Contact</a><br />
         </div>
         <div id="main">
           <% if flash[:notice] %>
